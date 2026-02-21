@@ -19,6 +19,8 @@ return {
         "typescript",
         "html",
         "css",
+        "c",
+        "cpp",
       },
     })
   end,
