@@ -113,7 +113,7 @@ Leader key is `<Space>`.
 |----------|-----|-----------|------------|
 | C/C++ | clangd | clang-format | yes |
 | Go | gopls | gofmt | yes |
-| Lua | lua_ls | -- | yes |
+| Lua | lua_ls | stylua | yes |
 | Python | -- | -- | yes |
 | JS/TS | -- | -- | yes |
 | HTML/CSS | -- | -- | yes |
