@@ -8,6 +8,7 @@ Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/la
 - Git
 - A [Nerd Font](https://www.nerdfonts.com/) (for icons)
 - `clang-format` (for C/C++ formatting -- install via `:MasonInstall clang-format` or `brew install clang-format`)
+- `make` and a C compiler (for telescope-fzf-native)
 
 ## Installation
 
@@ -38,7 +39,7 @@ lua/
     lsp.lua               -- LSP via Mason (lua_ls, gopls, clangd)
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
-    telescope.lua         -- Fuzzy finder
+    telescope.lua         -- Fuzzy finder (with fzf-native)
     treesitter.lua        -- Syntax highlighting
     which-key.lua         -- Keymap hints
 ```
@@ -62,11 +63,21 @@ Leader key is `<Space>`.
 | Key | Action |
 |-----|--------|
 | `<leader>e` | Toggle Neo-tree file explorer |
-| `<leader>ff` | Find files (Telescope) |
-| `<leader>fg` | Live grep (Telescope) |
-| `<leader>fb` | Buffers (Telescope) |
-| `<leader>fh` | Help tags (Telescope) |
 | `<leader>f` | Format buffer |
+
+### Telescope
+
+| Key | Action |
+|-----|--------|
+| `<leader>ff` | Find files |
+| `<leader>fg` | Live grep |
+| `<leader>fw` | Search word under cursor |
+| `<leader>fb` | Buffers |
+| `<leader>fo` | Recent files |
+| `<leader>fs` | Document symbols (LSP) |
+| `<leader>fd` | Workspace diagnostics |
+| `<leader>fr` | Resume last search |
+| `<leader>fh` | Help tags |
 
 ### LSP (active when a server is attached)
 
