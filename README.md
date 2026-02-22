@@ -112,7 +112,7 @@ Leader key is `<Space>`.
 | Language | LSP | Formatter | Treesitter |
 |----------|-----|-----------|------------|
 | C/C++ | clangd | clang-format | yes |
-| Go | gopls | -- | yes |
+| Go | gopls | gofmt | yes |
 | Lua | lua_ls | -- | yes |
 | Python | -- | -- | yes |
 | JS/TS | -- | -- | yes |
