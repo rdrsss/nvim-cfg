@@ -1,7 +1,6 @@
 return {
   {
     "williamboman/mason.nvim",
-    cmd = "Mason",
     opts = {},
   },
   {
@@ -9,36 +8,36 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     opts = {
       ensure_installed = { "lua_ls", "gopls", "clangd" },
-      handlers = {
-        function(server_name)
-          require("lspconfig")[server_name].setup({
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
-          })
-        end,
-        ["lua_ls"] = function()
-          require("lspconfig").lua_ls.setup({
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
-            settings = {
-              Lua = {
-                diagnostics = { globals = { "vim" } },
-                workspace = { checkThirdParty = false },
-                telemetry = { enable = false },
-              },
-            },
-          })
-        end,
-      },
     },
   },
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile" },
+    lazy = false,
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
+      vim.lsp.config("*", {
+        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+      })
+
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+              checkThirdParty = false,
+              library = { vim.env.VIMRUNTIME },
+            },
+            telemetry = { enable = false },
+          },
+        },
+      })
+
+      vim.lsp.enable({ "lua_ls", "gopls", "clangd" })
+
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(event)
           local map = function(keys, func, desc)

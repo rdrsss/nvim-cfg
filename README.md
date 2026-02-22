@@ -4,7 +4,7 @@ Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/la
 
 ## Requirements
 
-- Neovim >= 0.9
+- Neovim >= 0.11
 - Git
 - A [Nerd Font](https://www.nerdfonts.com/) (for icons)
 - `clang-format` (for C/C++ formatting -- install via `:MasonInstall clang-format` or `brew install clang-format`)
@@ -34,9 +34,9 @@ lua/
     autopairs.lua         -- Auto-close brackets/parens/quotes
     cmp.lua               -- Completion (nvim-cmp + LuaSnip)
     colorscheme.lua       -- Kanagawa Dragon theme
-    conform.lua           -- Formatting (clang-format for C/C++)
+    conform.lua           -- Formatting (clang-format, gofmt)
     gitsigns.lua          -- Git hunk signs and actions
-    lsp.lua               -- LSP via Mason (lua_ls, gopls, clangd)
+    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd)
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
     telescope.lua         -- Fuzzy finder (with fzf-native)
