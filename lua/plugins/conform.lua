@@ -17,6 +17,7 @@ return {
 			cpp = { "clang-format" },
 			go = { "gofmt" },
 			lua = { "stylua" },
+			rust = { "rustfmt" },
 		},
 		format_on_save = {
 			timeout_ms = 500,

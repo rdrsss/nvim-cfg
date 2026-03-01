@@ -7,7 +7,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "lua_ls", "gopls", "clangd" },
+      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer" },
     },
   },
   {
@@ -36,7 +36,7 @@ return {
         },
       })
 
-      vim.lsp.enable({ "lua_ls", "gopls", "clangd" })
+      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer" })
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(event)

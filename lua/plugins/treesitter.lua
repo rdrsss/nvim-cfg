@@ -21,6 +21,7 @@ return {
         "css",
         "c",
         "cpp",
+        "rust",
       },
     })
   end,
