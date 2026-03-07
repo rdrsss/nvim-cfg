@@ -22,6 +22,7 @@ return {
         "c",
         "cpp",
         "rust",
+        "sql",
       },
     })
   end,

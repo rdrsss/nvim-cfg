@@ -7,8 +7,19 @@ Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/la
 - Neovim >= 0.11
 - Git
 - A [Nerd Font](https://www.nerdfonts.com/) (for icons)
-- `clang-format` (for C/C++ formatting -- install via `:MasonInstall clang-format` or `brew install clang-format`)
 - `make` and a C compiler (for telescope-fzf-native)
+
+### External Tools
+
+LSP servers are installed automatically via Mason. The following formatters/linters must be installed manually:
+
+| Tool | Language | Install |
+|------|----------|---------|
+| `clang-format` | C/C++ | `brew install clang-format` or `:MasonInstall clang-format` |
+| `gofmt` | Go | Included with Go (`brew install go`) |
+| `stylua` | Lua | `brew install stylua` or `cargo install stylua` |
+| `rustfmt` | Rust | Included with Rust (`rustup component add rustfmt`) |
+| `sqlfluff` | SQL | `pip install sqlfluff` or `brew install sqlfluff` |
 
 ## Installation
 
@@ -34,9 +45,9 @@ lua/
     autopairs.lua         -- Auto-close brackets/parens/quotes
     cmp.lua               -- Completion (nvim-cmp + LuaSnip)
     colorscheme.lua       -- Kanagawa Dragon theme
-    conform.lua           -- Formatting (clang-format, gofmt)
+    conform.lua           -- Formatting (clang-format, gofmt, stylua, rustfmt, sqlfluff)
     gitsigns.lua          -- Git hunk signs and actions
-    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd)
+    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, sqls)
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
     telescope.lua         -- Fuzzy finder (with fzf-native)
@@ -114,6 +125,8 @@ Leader key is `<Space>`.
 | C/C++ | clangd | clang-format | yes |
 | Go | gopls | gofmt | yes |
 | Lua | lua_ls | stylua | yes |
+| Rust | rust_analyzer | rustfmt | yes |
+| SQL | sqls | sqlfluff | yes |
 | Python | -- | -- | yes |
 | JS/TS | -- | -- | yes |
 | HTML/CSS | -- | -- | yes |
