@@ -23,6 +23,7 @@ return {
         "cpp",
         "rust",
         "sql",
+        "graphql",
       },
     })
 
