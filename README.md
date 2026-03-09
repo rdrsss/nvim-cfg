@@ -11,11 +11,13 @@ Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/la
 
 ### External Tools
 
-LSP servers are installed automatically via Mason. The following formatters/linters must be installed manually:
+LSP servers are installed automatically via Mason, except **clangd** which uses the Homebrew LLVM binary directly (`/opt/homebrew/opt/llvm/bin/clangd`) to stay version-matched with the compiler and avoid C++20 module PCM compatibility issues.
+
+The following formatters/linters must be installed manually:
 
 | Tool | Language | Install |
 |------|----------|---------|
-| `clang-format` | C/C++ | `brew install clang-format` or `:MasonInstall clang-format` |
+| `llvm` | C/C++ | `brew install llvm` (provides clangd, clang-format) |
 | `gofmt` | Go | Included with Go (`brew install go`) |
 | `stylua` | Lua | `brew install stylua` or `cargo install stylua` |
 | `rustfmt` | Rust | Included with Rust (`rustup component add rustfmt`) |
@@ -47,7 +49,7 @@ lua/
     colorscheme.lua       -- Kanagawa Dragon theme
     conform.lua           -- Formatting (clang-format, gofmt, stylua, rustfmt, sqlfluff)
     gitsigns.lua          -- Git hunk signs and actions
-    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, sqls)
+    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd via Homebrew LLVM, rust_analyzer, sqls)
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
     telescope.lua         -- Fuzzy finder (with fzf-native)
@@ -122,7 +124,7 @@ Leader key is `<Space>`.
 
 | Language | LSP | Formatter | Treesitter |
 |----------|-----|-----------|------------|
-| C/C++ | clangd | clang-format | yes |
+| C/C++ | clangd (Homebrew LLVM) | clang-format | yes |
 | Go | gopls | gofmt | yes |
 | Lua | lua_ls | stylua | yes |
 | Rust | rust_analyzer | rustfmt | yes |

@@ -36,6 +36,14 @@ Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >=
 4. Add the treesitter parser to `ensure_installed` in `lua/plugins/treesitter.lua`
 5. Add a formatter to `formatters_by_ft` in `lua/plugins/conform.lua` if needed
 
+## Important: Use Current APIs
+
+This config targets Neovim >= 0.11 and uses latest plugin versions. Do NOT use deprecated or removed APIs:
+
+- **nvim-treesitter**: The `require("nvim-treesitter.configs").setup()` module no longer exists. The plugin only handles parser installation now. Use `vim.treesitter.start()` for highlighting (built into Neovim).
+- **LSP**: Use `vim.lsp.config()` / `vim.lsp.enable()`, NOT the old `lspconfig[server].setup()` pattern.
+- **General rule**: When in doubt, read the existing config files first to see which APIs are already in use. Do not assume pre-0.11 patterns.
+
 ## Style
 
 - Keep plugin configs minimal -- prefer `opts = {}` over `config = function()` when possible

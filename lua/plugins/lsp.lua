@@ -36,7 +36,17 @@ return {
         },
       })
 
+      vim.lsp.config("clangd", {
+        cmd = { "/opt/homebrew/opt/llvm/bin/clangd" },
+      })
+
       vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls" })
+
+      vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
+        local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
+        vim.diagnostic.reset(ns)
+        return true
+      end
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(event)
