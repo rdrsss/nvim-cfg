@@ -15,6 +15,8 @@ return {
         "markdown_inline",
         "python",
         "go",
+        "gomod",
+        "gosum",
         "javascript",
         "typescript",
         "html",
