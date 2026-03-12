@@ -17,6 +17,7 @@ return {
 			cpp = { "clang-format" },
 			go = { "gofmt" },
 			lua = { "stylua" },
+			python = { "ruff_format", "ruff_organize_imports" },
 			rust = { "rustfmt" },
 			sql = { "sqlfluff" },
 		},

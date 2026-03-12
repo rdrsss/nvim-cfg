@@ -21,6 +21,7 @@ The following formatters/linters must be installed manually:
 | `gofmt` | Go | Included with Go (`brew install go`) |
 | `stylua` | Lua | `brew install stylua` or `cargo install stylua` |
 | `rustfmt` | Rust | Included with Rust (`rustup component add rustfmt`) |
+| `ruff` | Python | `brew install ruff` or `pip install ruff` |
 | `sqlfluff` | SQL | `pip install sqlfluff` or `brew install sqlfluff` |
 
 ## Installation
@@ -47,9 +48,9 @@ lua/
     autopairs.lua         -- Auto-close brackets/parens/quotes
     cmp.lua               -- Completion (nvim-cmp + LuaSnip)
     colorscheme.lua       -- Kanagawa Dragon theme
-    conform.lua           -- Formatting (clang-format, gofmt, stylua, rustfmt, sqlfluff)
+    conform.lua           -- Formatting (clang-format, gofmt, stylua, ruff, rustfmt, sqlfluff)
     gitsigns.lua          -- Git hunk signs and actions
-    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd via Homebrew LLVM, rust_analyzer, sqls)
+    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls) + inlay hints
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
     telescope.lua         -- Fuzzy finder (with fzf-native)
@@ -97,11 +98,13 @@ Leader key is `<Space>`.
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
+| `gi` | Go to implementation |
 | `gr` | References |
 | `K` | Hover documentation |
 | `<leader>ca` | Code action |
 | `<leader>rn` | Rename symbol |
 | `<leader>d` | Diagnostics float |
+| `<leader>th` | Toggle inlay hints |
 
 ### Git (gitsigns)
 
@@ -122,16 +125,16 @@ Leader key is `<Space>`.
 
 ## Language Support
 
-| Language | LSP | Formatter | Treesitter |
-|----------|-----|-----------|------------|
-| C/C++ | clangd (Homebrew LLVM) | clang-format | yes |
-| Go | gopls | gofmt | yes |
-| Lua | lua_ls | stylua | yes |
-| Rust | rust_analyzer | rustfmt | yes |
-| SQL | sqls | sqlfluff | yes |
-| Python | -- | -- | yes |
-| JS/TS | -- | -- | yes |
-| HTML/CSS | -- | -- | yes |
-| Bash | -- | -- | yes |
-| JSON/YAML | -- | -- | yes |
-| Markdown | -- | -- | yes |
+| Language | LSP | Formatter | Treesitter | Inlay Hints |
+|----------|-----|-----------|------------|-------------|
+| C/C++ | clangd (Homebrew LLVM) | clang-format | yes | yes |
+| Go | gopls | gofmt | yes | yes |
+| Lua | lua_ls | stylua | yes | -- |
+| Rust | rust_analyzer | rustfmt | yes | -- |
+| SQL | sqls | sqlfluff | yes | -- |
+| Python | pyright | ruff | yes | -- |
+| JS/TS | -- | -- | yes | -- |
+| HTML/CSS | -- | -- | yes | -- |
+| Bash | -- | -- | yes | -- |
+| JSON/YAML | -- | -- | yes | -- |
+| Markdown | -- | -- | yes | -- |

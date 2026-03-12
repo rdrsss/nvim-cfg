@@ -7,7 +7,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql" },
+      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright" },
     },
   },
   {
@@ -38,9 +38,47 @@ return {
 
       vim.lsp.config("clangd", {
         cmd = { "/opt/homebrew/opt/llvm/bin/clangd" },
+        settings = {
+          clangd = {
+            InlayHints = {
+              Designators = true,
+              Enabled = true,
+              ParameterNames = true,
+              DeducedTypes = true,
+            },
+          },
+        },
       })
 
-      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql" })
+      vim.lsp.config("gopls", {
+        settings = {
+          gopls = {
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+          },
+        },
+      })
+
+      vim.lsp.config("pyright", {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoImportCompletions = true,
+              diagnosticMode = "openFilesOnly",
+            },
+          },
+        },
+      })
+
+      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright" })
 
       vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
         local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
@@ -61,6 +99,9 @@ return {
           map("<leader>ca", vim.lsp.buf.code_action, "Code action")
           map("<leader>rn", vim.lsp.buf.rename, "Rename")
           map("<leader>d", vim.diagnostic.open_float, "Diagnostics float")
+          map("<leader>th", function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }), { bufnr = event.buf })
+          end, "Toggle inlay hints")
         end,
       })
     end,
