@@ -47,7 +47,7 @@ lua/
   plugins/
     autopairs.lua         -- Auto-close brackets/parens/quotes
     cmp.lua               -- Completion (nvim-cmp + LuaSnip)
-    colorscheme.lua       -- Kanagawa Dragon theme
+    colorscheme.lua       -- Colorschemes (kanagawa, rose-pine, catppuccin, gruvbox-material)
     conform.lua           -- Formatting (clang-format, gofmt, stylua, ruff, rustfmt, sqlfluff)
     gitsigns.lua          -- Git hunk signs and actions
     lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls) + inlay hints
@@ -56,7 +56,22 @@ lua/
     telescope.lua         -- Fuzzy finder (with fzf-native)
     treesitter.lua        -- Syntax highlighting
     which-key.lua         -- Keymap hints
+  colors/
+    gruvbox-material-{hard,medium,soft}-{dark,light}.lua  -- Gruvbox Material variants
 ```
+
+## Colorschemes
+
+The default colorscheme is **kanagawa-wave**. The following are installed and available via `:colorscheme`:
+
+- `kanagawa-wave` (default), `kanagawa-dragon`, `kanagawa-lotus`
+- `rose-pine`, `rose-pine-moon`, `rose-pine-dawn`
+- `catppuccin`, `catppuccin-latte`, `catppuccin-frappe`, `catppuccin-macchiato`, `catppuccin-mocha`
+- `gruvbox-material-hard-dark`, `gruvbox-material-hard-light`
+- `gruvbox-material-medium-dark`, `gruvbox-material-medium-light`
+- `gruvbox-material-soft-dark`, `gruvbox-material-soft-light`
+
+The gruvbox-material variants are custom `colors/` files that set the background/contrast globals and source the upstream colorscheme directly.
 
 ## Keymaps
 

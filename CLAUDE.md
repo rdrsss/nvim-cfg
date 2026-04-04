@@ -11,6 +11,7 @@ Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >=
 - `init.lua` -- Entry point, loads config modules in order: options, keys, automds, lazy
 - `lua/config/` -- Core settings (options, keymaps, autocommands, lazy.nvim bootstrap)
 - `lua/plugins/` -- One file per plugin (or plugin group). lazy.nvim auto-imports all files in this directory.
+- `colors/` -- Custom colorscheme variants (e.g., gruvbox-material with preset background/contrast combos). Each file sets globals and sources the upstream colorscheme file directly.
 
 ## Conventions
 
