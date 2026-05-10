@@ -24,6 +24,12 @@ The following formatters/linters must be installed manually:
 | `ruff` | Python | `brew install ruff` or `pip install ruff` |
 | `sqlfluff` | SQL | `pip install sqlfluff` or `brew install sqlfluff` |
 
+To install all of the above with Homebrew in one shot (rustfmt still needs `rustup component add rustfmt`):
+
+```sh
+brew install llvm go stylua ruff sqlfluff
+```
+
 ## Installation
 
 Back up any existing config, then clone:

@@ -21,21 +21,28 @@ Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >=
 - **Keymaps**: Global keymaps go in `lua/config/keys.lua`. Plugin-specific keymaps go in the plugin's spec (via `keys` field or in `config`/`on_attach`).
 - **LSP servers** use the Neovim 0.11 API (`vim.lsp.config` / `vim.lsp.enable`). Mason handles installation (`ensure_installed`), server configuration is done directly with `vim.lsp.config()` in `lua/plugins/lsp.lua`.
 - **Formatters** are managed by conform.nvim in `lua/plugins/conform.lua`. Add new formatters to `formatters_by_ft`.
-- **Treesitter parsers**: Add new languages to `ensure_installed` in `lua/plugins/treesitter.lua`.
+- **Linters** are managed by nvim-lint in `lua/plugins/lint.lua`. Add new linters to `linters_by_ft`.
+- **Treesitter parsers**: Add new languages to the `install()` call in `lua/plugins/treesitter.lua`.
 
 ## Current Language Support
 
 - **C/C++**: clangd (LSP) + clang-format (formatter) + treesitter
 - **Go**: gopls (LSP) + gofmt (formatter) + treesitter
-- **Lua**: lua_ls (LSP, configured for Neovim API) + treesitter
+- **Lua**: lua_ls (LSP, configured for Neovim API) + stylua (formatter) + treesitter
+- **Python**: pyright (LSP) + ruff_format / ruff_organize_imports (formatter) + treesitter
+- **Rust**: rust_analyzer (LSP) + rustfmt (formatter) + treesitter
+- **SQL**: sqls (LSP) + sqlfluff (formatter + linter) + treesitter
+- **GraphQL**: graphql (LSP) + treesitter
+- **Treesitter-only** (parsers installed, no LSP wired up): vim, vimdoc, bash, json, yaml, markdown, javascript, typescript, html, css
 
 ## Adding a New Language
 
-1. Add the LSP server to `ensure_installed` in `lua/plugins/lsp.lua`
+1. Add the LSP server to `ensure_installed` in `lua/plugins/lsp.lua` (mason-lspconfig spec)
 2. Add `vim.lsp.config("server", { ... })` if the server needs custom settings
 3. Add the server name to the `vim.lsp.enable()` call
-4. Add the treesitter parser to `ensure_installed` in `lua/plugins/treesitter.lua`
+4. Add the treesitter parser to the `install()` call in `lua/plugins/treesitter.lua`
 5. Add a formatter to `formatters_by_ft` in `lua/plugins/conform.lua` if needed
+6. Add a linter to `linters_by_ft` in `lua/plugins/lint.lua` if needed
 
 ## Important: Use Current APIs
 
