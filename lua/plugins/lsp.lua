@@ -7,7 +7,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright" },
+      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls" },
     },
   },
   {
@@ -78,7 +78,7 @@ return {
         },
       })
 
-      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright" })
+      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls" })
 
       vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
         local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)

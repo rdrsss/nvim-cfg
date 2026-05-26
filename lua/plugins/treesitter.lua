@@ -25,6 +25,7 @@ return {
       "rust",
       "sql",
       "graphql",
+      "zig",
     })
 
     vim.api.nvim_create_autocmd("FileType", {

@@ -33,6 +33,7 @@ Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >=
 - **Rust**: rust_analyzer (LSP) + rustfmt (formatter) + treesitter
 - **SQL**: sqls (LSP) + sqlfluff (formatter + linter) + treesitter
 - **GraphQL**: graphql (LSP) + treesitter
+- **Zig**: zls (LSP) + zigfmt (formatter, uses `zig fmt`) + treesitter
 - **Treesitter-only** (parsers installed, no LSP wired up): vim, vimdoc, bash, json, yaml, markdown, javascript, typescript, html, css
 
 ## Adding a New Language

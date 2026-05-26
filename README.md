@@ -5,30 +5,37 @@ Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/la
 ## Requirements
 
 - Neovim >= 0.11
-- Git
-- A [Nerd Font](https://www.nerdfonts.com/) (for icons)
-- `make` and a C compiler (for telescope-fzf-native)
+- Xcode Command Line Tools (`xcode-select --install`) for `make` and a C compiler — needed to build telescope-fzf-native and treesitter parsers
 
-### External Tools
+### System dependencies
 
-LSP servers are installed automatically via Mason, except **clangd** which uses the Homebrew LLVM binary directly (`/opt/homebrew/opt/llvm/bin/clangd`) to stay version-matched with the compiler and avoid C++20 module PCM compatibility issues.
+**LSP servers are installed automatically via Mason** (lua_ls, gopls, rust_analyzer, pyright, sqls, graphql, zls). The exception is **clangd**, which the config points at the Homebrew LLVM binary (`/opt/homebrew/opt/llvm/bin/clangd`) to stay version-matched with the local compiler and avoid C++20 module PCM compatibility issues.
 
-The following formatters/linters must be installed manually:
+Everything else — formatters, language runtimes invoked by those formatters, and the search tools Telescope shells out to — must be installed on the system:
 
-| Tool | Language | Install |
-|------|----------|---------|
-| `llvm` | C/C++ | `brew install llvm` (provides clangd, clang-format) |
-| `gofmt` | Go | Included with Go (`brew install go`) |
-| `stylua` | Lua | `brew install stylua` or `cargo install stylua` |
-| `rustfmt` | Rust | Included with Rust (`rustup component add rustfmt`) |
-| `ruff` | Python | `brew install ruff` or `pip install ruff` |
-| `sqlfluff` | SQL | `pip install sqlfluff` or `brew install sqlfluff` |
+| Tool | Purpose |
+|------|---------|
+| `neovim` | The editor itself |
+| `git` | Required by lazy.nvim and gitsigns |
+| `ripgrep` | Telescope live grep |
+| `fd` | Telescope file finder (faster than the fallback) |
+| `llvm` | Provides `clangd` and `clang-format` for C/C++ |
+| `go` | Provides `gofmt`, and the Go toolchain used by gopls |
+| `rust` | Provides `rustfmt` and the Rust toolchain used by rust_analyzer |
+| `zig` | Provides `zig fmt` (invoked by conform's `zigfmt`) and the compiler used by zls |
+| `stylua` | Lua formatter |
+| `ruff` | Python formatter / import sorter |
+| `sqlfluff` | SQL formatter and linter |
+| `font-jetbrains-mono-nerd-font` | A Nerd Font for icons (Homebrew cask) |
 
-To install all of the above with Homebrew in one shot (rustfmt still needs `rustup component add rustfmt`):
+Install everything with Homebrew in one shot:
 
 ```sh
-brew install llvm go stylua ruff sqlfluff
+brew install neovim git ripgrep fd llvm go rust zig stylua ruff sqlfluff
+brew install --cask font-jetbrains-mono-nerd-font
 ```
+
+After installing the Nerd Font, set it as your terminal's font.
 
 ## Installation
 
@@ -54,9 +61,9 @@ lua/
     autopairs.lua         -- Auto-close brackets/parens/quotes
     cmp.lua               -- Completion (nvim-cmp + LuaSnip)
     colorscheme.lua       -- Colorschemes (kanagawa, rose-pine, catppuccin, gruvbox-material)
-    conform.lua           -- Formatting (clang-format, gofmt, stylua, ruff, rustfmt, sqlfluff)
+    conform.lua           -- Formatting (clang-format, gofmt, stylua, ruff, rustfmt, sqlfluff, zigfmt)
     gitsigns.lua          -- Git hunk signs and actions
-    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls) + inlay hints
+    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls, graphql, zls) + inlay hints
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
     telescope.lua         -- Fuzzy finder (with fzf-native)
@@ -154,6 +161,8 @@ Leader key is `<Space>`.
 | Rust | rust_analyzer | rustfmt | yes | -- |
 | SQL | sqls | sqlfluff | yes | -- |
 | Python | pyright | ruff | yes | -- |
+| Zig | zls | zigfmt (`zig fmt`) | yes | -- |
+| GraphQL | graphql | -- | yes | -- |
 | JS/TS | -- | -- | yes | -- |
 | HTML/CSS | -- | -- | yes | -- |
 | Bash | -- | -- | yes | -- |
