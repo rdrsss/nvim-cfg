@@ -15,5 +15,6 @@ return {
   },
   opts = {
     picker = "telescope",
+    enable_builtin = true,
   },
 }
