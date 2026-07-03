@@ -7,7 +7,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls" },
+      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls", "ts_ls" },
     },
   },
   {
@@ -78,7 +78,34 @@ return {
         },
       })
 
-      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls" })
+      vim.lsp.config("ts_ls", {
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+        },
+      })
+
+      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls", "ts_ls" })
 
       vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
         local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
@@ -93,6 +120,7 @@ return {
           end
 
           map("gd", vim.lsp.buf.definition, "Go to definition")
+          map("gy", vim.lsp.buf.type_definition, "Go to type definition")
           map("gi", vim.lsp.buf.implementation, "Go to implementation")
           map("gr", vim.lsp.buf.references, "References")
           map("K", vim.lsp.buf.hover, "Hover")
