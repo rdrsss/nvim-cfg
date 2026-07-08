@@ -105,7 +105,9 @@ return {
         },
       })
 
-      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls", "ts_ls" })
+      -- buf_ls runs off the system `buf` binary (Homebrew), not a Mason
+      -- package — Mason's buf-language-server is the archived project.
+      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls", "ts_ls", "buf_ls" })
 
       vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
         local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
