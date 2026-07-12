@@ -34,7 +34,9 @@ Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >=
 - **SQL**: sqls (LSP) + sqlfluff (formatter + linter) + treesitter
 - **GraphQL**: graphql (LSP) + treesitter
 - **Zig**: zls (LSP) + zigfmt (formatter, uses `zig fmt`) + treesitter
-- **Treesitter-only** (parsers installed, no LSP wired up): vim, vimdoc, bash, json, yaml, markdown, javascript, typescript, html, css
+- **TypeScript/JavaScript**: ts_ls (LSP, with inlay hints) + treesitter
+- **Protobuf**: buf_ls (LSP, runs off the system `buf` binary — not Mason) + treesitter (`proto`)
+- **Treesitter-only** (parsers installed, no LSP wired up): vim, vimdoc, bash, json, yaml, markdown, html, css
 
 ## Adding a New Language
 

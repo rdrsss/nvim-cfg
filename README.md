@@ -9,7 +9,7 @@ Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/la
 
 ### System dependencies
 
-**LSP servers are installed automatically via Mason** (lua_ls, gopls, rust_analyzer, pyright, sqls, graphql, zls). The exception is **clangd**, which the config points at the Homebrew LLVM binary (`/opt/homebrew/opt/llvm/bin/clangd`) to stay version-matched with the local compiler and avoid C++20 module PCM compatibility issues.
+**LSP servers are installed automatically via Mason** (lua_ls, gopls, rust_analyzer, pyright, sqls, graphql, zls, ts_ls). Two servers run off system binaries instead: **clangd**, which the config points at the Homebrew LLVM binary (`/opt/homebrew/opt/llvm/bin/clangd`) to stay version-matched with the local compiler and avoid C++20 module PCM compatibility issues; and **buf_ls** (Protobuf), which uses the Homebrew `buf` binary because Mason's `buf-language-server` package is archived.
 
 Everything else — formatters, language runtimes invoked by those formatters, and the search tools Telescope shells out to — must be installed on the system:
 
@@ -23,6 +23,7 @@ Everything else — formatters, language runtimes invoked by those formatters, a
 | `go` | Provides `gofmt`, and the Go toolchain used by gopls |
 | `rust` | Provides `rustfmt` and the Rust toolchain used by rust_analyzer |
 | `zig` | Provides `zig fmt` (invoked by conform's `zigfmt`) and the compiler used by zls |
+| `buf` | Provides `buf_ls`, the Protobuf language server (Mason's package is archived) |
 | `stylua` | Lua formatter |
 | `ruff` | Python formatter / import sorter |
 | `sqlfluff` | SQL formatter and linter |
@@ -31,7 +32,7 @@ Everything else — formatters, language runtimes invoked by those formatters, a
 Install everything with Homebrew in one shot:
 
 ```sh
-brew install neovim git ripgrep fd llvm go rust zig stylua ruff sqlfluff
+brew install neovim git ripgrep fd llvm go rust zig buf stylua ruff sqlfluff
 brew install --cask font-jetbrains-mono-nerd-font
 ```
 
@@ -63,9 +64,10 @@ lua/
     colorscheme.lua       -- Colorschemes (kanagawa, rose-pine, catppuccin, gruvbox-material)
     conform.lua           -- Formatting (clang-format, gofmt, stylua, ruff, rustfmt, sqlfluff, zigfmt)
     gitsigns.lua          -- Git hunk signs and actions
-    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls, graphql, zls) + inlay hints
+    lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls, graphql, zls, ts_ls, buf_ls) + inlay hints
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
+    octo.lua              -- GitHub issues & PRs (:Octo)
     telescope.lua         -- Fuzzy finder (with fzf-native)
     treesitter.lua        -- Syntax highlighting
     which-key.lua         -- Keymap hints
@@ -143,6 +145,16 @@ Leader key is `<Space>`.
 | `<leader>hr` | Reset hunk |
 | `<leader>hp` | Preview hunk |
 
+### GitHub (octo.nvim)
+
+| Key | Action |
+|-----|--------|
+| `<leader>go` | Octo menu |
+| `<leader>gi` | List issues |
+| `<leader>gp` | List PRs |
+| `<leader>gr` | Start PR review |
+| `<leader>gS` | Search issues/PRs |
+
 ### Completion (insert mode)
 
 | Key | Action |
@@ -163,7 +175,8 @@ Leader key is `<Space>`.
 | Python | pyright | ruff | yes | -- |
 | Zig | zls | zigfmt (`zig fmt`) | yes | -- |
 | GraphQL | graphql | -- | yes | -- |
-| JS/TS | -- | -- | yes | -- |
+| JS/TS | ts_ls | -- | yes | yes |
+| Protobuf | buf_ls (system `buf`) | -- | yes | -- |
 | HTML/CSS | -- | -- | yes | -- |
 | Bash | -- | -- | yes | -- |
 | JSON/YAML | -- | -- | yes | -- |
