@@ -38,3 +38,6 @@ opt.cursorline = true
 -- Misc
 opt.updatetime = 250
 opt.timeoutlen = 300
+
+-- Project-local config (.nvim.lua, gated by a trust prompt)
+opt.exrc = true

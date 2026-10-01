@@ -37,7 +37,20 @@ return {
       })
 
       vim.lsp.config("clangd", {
-        cmd = { "/opt/homebrew/opt/llvm/bin/clangd" },
+        cmd = (function()
+          local cmd = {
+            "/opt/homebrew/opt/llvm/bin/clangd",
+            "--experimental-modules-support",
+            "--background-index",
+          }
+          -- C++ modules: out-of-tree module sources (e.g. libc++'s std.cppm)
+          -- are only found when the compile-commands dir is forced explicitly.
+          local cdb = vim.fn.resolve(vim.fn.getcwd() .. "/compile_commands.json")
+          if vim.uv.fs_stat(cdb) then
+            table.insert(cmd, "--compile-commands-dir=" .. vim.fs.dirname(cdb))
+          end
+          return cmd
+        end)(),
         settings = {
           clangd = {
             InlayHints = {
