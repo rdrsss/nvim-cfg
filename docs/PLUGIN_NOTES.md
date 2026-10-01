@@ -2,7 +2,7 @@
 
 A reading list of things this config does *not* currently include, with enough context to decide whether each is worth adopting. Nothing here is a recommendation to install — these are options.
 
-Last reviewed: 2026-05-17 (Neovim 0.11 baseline).
+Original review: 2026-05-17 (Neovim 0.11 baseline). Textobjects example updated 2026-09-30 for this config's Neovim 0.12 baseline.
 
 ---
 
@@ -38,7 +38,7 @@ Modern customizable sign column / number column. You can build your own gutter (
 ### `winbar`
 Per-window header bar — useful for showing breadcrumbs (filepath + LSP symbol path). Often paired with `SmiteshP/nvim-navic` or `Bekaboo/dropbar.nvim`.
 
-### Inlay hints (already enabled in this config)
+### Inlay hints (configured, off by default)
 You already toggle these with `<leader>th`. To enable by default on attach, add `vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })` to the `LspAttach` callback. Currently they're off until you toggle them.
 
 ---
@@ -106,32 +106,53 @@ Combine with verbs: `daf` deletes the whole function, `cif` changes its body, `v
 ```lua
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
+  branch = "main",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  event = "VeryLazy",
-  config = function()
-    require("nvim-treesitter.configs").setup({
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = "@class.inner",
-            ["aa"] = "@parameter.outer",
-            ["ia"] = "@parameter.inner",
-          },
-        },
-      },
-    })
-  end,
+  opts = { select = { lookahead = true } },
+  keys = {
+    {
+      "af",
+      function() require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects") end,
+      mode = { "x", "o" },
+      desc = "Around function",
+    },
+    {
+      "if",
+      function() require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects") end,
+      mode = { "x", "o" },
+      desc = "Inside function",
+    },
+    {
+      "ac",
+      function() require("nvim-treesitter-textobjects.select").select_textobject("@class.outer", "textobjects") end,
+      mode = { "x", "o" },
+      desc = "Around class",
+    },
+    {
+      "ic",
+      function() require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects") end,
+      mode = { "x", "o" },
+      desc = "Inside class",
+    },
+    {
+      "aa",
+      function() require("nvim-treesitter-textobjects.select").select_textobject("@parameter.outer", "textobjects") end,
+      mode = { "x", "o" },
+      desc = "Around argument",
+    },
+    {
+      "ia",
+      function() require("nvim-treesitter-textobjects.select").select_textobject("@parameter.inner", "textobjects") end,
+      mode = { "x", "o" },
+      desc = "Inside argument",
+    },
+  },
 }
 ```
 
-**Caveat**: this plugin still uses the legacy `nvim-treesitter.configs` API — fine for textobjects, but inconsistent with the rest of this config's modern API usage.
+The `main` branch uses `require("nvim-treesitter-textobjects").setup()` (called by lazy.nvim through `opts`) and explicit select mappings. The old `nvim-treesitter.configs` example is incompatible with this config. See the [upstream configuration](https://github.com/nvim-treesitter/nvim-treesitter-textobjects#text-objects-select). This remains an optional example; the plugin is not installed here.
 
-**Cost**: medium (extra parsers, legacy API). **Why install**: massively faster code editing once internalized.
+**Cost**: medium (additional queries and mappings). **Why install**: faster code editing with function, class, and argument textobjects.
 
 ### `lukas-reineke/indent-blankline.nvim` — indent guides
 Vertical lines showing indentation levels. Pure visual aid.

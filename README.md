@@ -2,9 +2,11 @@
 
 Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/lazy.nvim).
 
+This is my personal setup for **Apple Silicon macOS with Homebrew**. Other platforms need adjustments, especially the hardcoded clangd path in `lua/plugins/lsp.lua`.
+
 ## Requirements
 
-- Neovim >= 0.11
+- Neovim >= 0.12 (required by the locked nvim-treesitter version)
 - Xcode Command Line Tools (`xcode-select --install`) for `make` and a C compiler — needed to build telescope-fzf-native and treesitter parsers
 
 ### System dependencies
@@ -17,6 +19,9 @@ Everything else — formatters, language runtimes invoked by those formatters, a
 |------|---------|
 | `neovim` | The editor itself |
 | `git` | Required by lazy.nvim and gitsigns |
+| `node` | Node.js and npm for Mason's pyright, GraphQL, and TypeScript servers |
+| `tree-sitter-cli` | Treesitter parser installation (>= 0.26.1; `tree-sitter` alone installs only the library) |
+| `gh` | GitHub CLI for Octo; requires authentication |
 | `ripgrep` | Telescope live grep |
 | `fd` | Telescope file finder (faster than the fallback) |
 | `llvm` | Provides `clangd` and `clang-format` for C/C++ |
@@ -32,8 +37,22 @@ Everything else — formatters, language runtimes invoked by those formatters, a
 Install everything with Homebrew in one shot:
 
 ```sh
-brew install neovim git ripgrep fd llvm go rust zig buf stylua ruff sqlfluff
+brew install neovim git node tree-sitter-cli gh ripgrep fd llvm go rust zig buf stylua ruff sqlfluff
 brew install --cask font-jetbrains-mono-nerd-font
+```
+
+LLVM is keg-only. Add its binaries to your shell's PATH (for zsh, put this in `~/.zshrc`), then restart your shell before launching Neovim:
+
+```sh
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+```
+
+This lets Conform find `clang-format`. clangd itself uses the absolute Homebrew path.
+
+Authenticate Octo's GitHub CLI dependency:
+
+```sh
+gh auth login
 ```
 
 After installing the Nerd Font, set it as your terminal's font.
@@ -47,6 +66,18 @@ git clone https://github.com/rdrsss/nvim-cfg ~/.config/nvim
 ```
 
 Open Neovim and lazy.nvim will bootstrap itself and install all plugins automatically.
+
+Parser and LSP installation may take a moment on the first launch. Use `:checkhealth nvim-treesitter`, `:checkhealth mason`, `:Mason`, and `:ConformInfo` to inspect setup problems.
+
+## Editing behavior
+
+Supported buffers format automatically before saving, with a 500 ms timeout. `<leader>f` formats manually and asynchronously. Both use an attached LSP's formatter when no configured external formatter is available; JS/TS can therefore format through ts_ls even without a dedicated formatter entry.
+
+Inlay hints start disabled. Toggle them per buffer with `<leader>th` when the attached server supports them.
+
+Project-local config is enabled with `exrc`: Neovim can load `.nvim.lua`, `.nvimrc`, or `.exrc` from the current directory and its parents after a trust prompt. Use `:trust` to manage approval; trusted Lua config can execute code.
+
+For C++ modules, clangd uses the compilation database at each client's project root. If `compile_commands.json` is a symlink into a build directory, its resolved directory is passed to clangd. When no root-level database exists, clangd uses its normal discovery behavior. Build with the matching Homebrew LLVM toolchain for module compatibility.
 
 ## Structure
 
@@ -64,6 +95,7 @@ lua/
     colorscheme.lua       -- Colorschemes (kanagawa, rose-pine, catppuccin, gruvbox-material)
     conform.lua           -- Formatting (clang-format, gofmt, stylua, ruff, rustfmt, sqlfluff, zigfmt)
     gitsigns.lua          -- Git hunk signs and actions
+    lint.lua              -- SQL linting via sqlfluff
     lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls, graphql, zls, ts_ls, buf_ls) + inlay hints
     lualine.lua           -- Status line
     neo-tree.lua          -- File explorer
@@ -128,6 +160,7 @@ Leader key is `<Space>`.
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
+| `gy` | Go to type definition |
 | `gi` | Go to implementation |
 | `gr` | References |
 | `K` | Hover documentation |
@@ -144,6 +177,7 @@ Leader key is `<Space>`.
 | `<leader>hs` | Stage hunk |
 | `<leader>hr` | Reset hunk |
 | `<leader>hp` | Preview hunk |
+| `<leader>hb` | Toggle current-line blame |
 
 ### GitHub (octo.nvim)
 

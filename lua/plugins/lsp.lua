@@ -7,7 +7,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls", "ts_ls" },
+      ensure_installed = { "lua_ls", "gopls", "rust_analyzer", "sqls", "graphql", "pyright", "zls", "ts_ls" },
     },
   },
   {
@@ -37,7 +37,7 @@ return {
       })
 
       vim.lsp.config("clangd", {
-        cmd = (function()
+        cmd = function(dispatchers, config)
           local cmd = {
             "/opt/homebrew/opt/llvm/bin/clangd",
             "--experimental-modules-support",
@@ -45,12 +45,16 @@ return {
           }
           -- C++ modules: out-of-tree module sources (e.g. libc++'s std.cppm)
           -- are only found when the compile-commands dir is forced explicitly.
-          local cdb = vim.fn.resolve(vim.fn.getcwd() .. "/compile_commands.json")
-          if vim.uv.fs_stat(cdb) then
+          local cdb = config.root_dir and vim.fn.resolve(config.root_dir .. "/compile_commands.json")
+          if cdb and vim.uv.fs_stat(cdb) then
             table.insert(cmd, "--compile-commands-dir=" .. vim.fs.dirname(cdb))
           end
-          return cmd
-        end)(),
+          return vim.lsp.rpc.start(cmd, dispatchers, {
+            cwd = config.cmd_cwd,
+            env = config.cmd_env,
+            detached = config.detached,
+          })
+        end,
         settings = {
           clangd = {
             InlayHints = {
@@ -120,13 +124,18 @@ return {
 
       -- buf_ls runs off the system `buf` binary (Homebrew), not a Mason
       -- package — Mason's buf-language-server is the archived project.
-      vim.lsp.enable({ "lua_ls", "gopls", "clangd", "rust_analyzer", "sqls", "graphql", "pyright", "zls", "ts_ls", "buf_ls" })
-
-      vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
-        local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
-        vim.diagnostic.reset(ns)
-        return true
-      end
+      vim.lsp.enable({
+        "lua_ls",
+        "gopls",
+        "clangd",
+        "rust_analyzer",
+        "sqls",
+        "graphql",
+        "pyright",
+        "zls",
+        "ts_ls",
+        "buf_ls",
+      })
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(event)

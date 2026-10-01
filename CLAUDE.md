@@ -4,7 +4,7 @@ Guidelines for working on this Neovim configuration.
 
 ## Project Overview
 
-Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >= 0.11. All config is in Lua.
+Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >= 0.12. All config is in Lua.
 
 ## Structure
 
@@ -49,7 +49,7 @@ Personal Neovim config using lazy.nvim as the plugin manager. Requires Neovim >=
 
 ## Important: Use Current APIs
 
-This config targets Neovim >= 0.11 and uses latest plugin versions. Do NOT use deprecated or removed APIs:
+This config targets Neovim >= 0.12 and uses latest plugin versions. Do NOT use deprecated or removed APIs:
 
 - **nvim-treesitter**: The `require("nvim-treesitter.configs").setup()` module no longer exists. The plugin only handles parser installation now. Use `vim.treesitter.start()` for highlighting (built into Neovim).
 - **LSP**: Use `vim.lsp.config()` / `vim.lsp.enable()`, NOT the old `lspconfig[server].setup()` pattern.
