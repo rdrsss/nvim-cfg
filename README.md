@@ -32,7 +32,7 @@ Everything else — formatters, language runtimes invoked by those formatters, a
 | `stylua` | Lua formatter |
 | `ruff` | Python formatter / import sorter |
 | `sqlfluff` | SQL formatter and linter |
-| `font-jetbrains-mono-nerd-font` | A Nerd Font for icons (Homebrew cask) |
+| `font-jetbrains-mono-nerd-font` | A Nerd Font for icons, including the code block language icons from render-markdown (Homebrew cask) |
 
 Install everything with Homebrew in one shot:
 
@@ -56,6 +56,13 @@ gh auth login
 ```
 
 After installing the Nerd Font, set it as your terminal's font.
+
+### Markdown dependencies
+
+Markdown needs nothing beyond the tools above: render-markdown.nvim uses the treesitter `markdown`, `markdown_inline`, `html` and `yaml` parsers and `nvim-web-devicons` (both already installed), and mdkite.nvim ships its own pure-Lua server (kitehost.nvim, installed by lazy.nvim, no Node needed). Two things to know:
+
+- **mdkite needs a browser and internet access.** The preview page loads markdown-it, Mermaid, KaTeX, highlight.js and morphdom from a CDN.
+- **Optional:** LaTeX rendering in the buffer needs the treesitter `latex` parser plus `libtexprintf` or `pylatexenc`, which are not installed by this config. For faster Mermaid diagrams in the browser, `cargo install mermaid-rs-renderer` and set `mermaid_renderer = "rust"` in `lua/plugins/mdkite.lua`.
 
 ## Installation
 
@@ -98,8 +105,10 @@ lua/
     lint.lua              -- SQL linting via sqlfluff
     lsp.lua               -- LSP via Mason + vim.lsp.config (lua_ls, gopls, clangd, rust_analyzer, pyright, sqls, graphql, zls, ts_ls, buf_ls) + inlay hints
     lualine.lua           -- Status line
+    mdkite.lua            -- Live markdown preview in the browser (:MdKite)
     neo-tree.lua          -- File explorer
     octo.lua              -- GitHub issues & PRs (:Octo)
+    render-markdown.lua   -- In-buffer markdown rendering (:RenderMarkdown)
     telescope.lua         -- Fuzzy finder (with fzf-native)
     treesitter.lua        -- Syntax highlighting
     which-key.lua         -- Keymap hints
@@ -189,6 +198,16 @@ Leader key is `<Space>`.
 | `<leader>gr` | Start PR review |
 | `<leader>gS` | Search issues/PRs |
 
+### Markdown (mdkite.nvim, render-markdown.nvim)
+
+`<leader>mt` renders markdown in the buffer (headings, code blocks with language icons, tables, checkboxes, callouts). `<leader>mp` opens a live preview in the browser with Mermaid, math and scroll sync.
+
+| Key | Action |
+|-----|--------|
+| `<leader>mp` | Toggle browser preview (markdown buffers) |
+| `<leader>mr` | Refresh preview (markdown buffers) |
+| `<leader>mt` | Toggle in-buffer rendering (markdown buffers) |
+
 ### Completion (insert mode)
 
 | Key | Action |
@@ -214,4 +233,4 @@ Leader key is `<Space>`.
 | HTML/CSS | -- | -- | yes | -- |
 | Bash | -- | -- | yes | -- |
 | JSON/YAML | -- | -- | yes | -- |
-| Markdown | -- | -- | yes | -- |
+| Markdown | -- | -- | yes (+ render-markdown, mdkite preview) | -- |
